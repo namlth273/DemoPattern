@@ -16,12 +16,12 @@ namespace DemoPattern
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -34,11 +34,14 @@ namespace DemoPattern
                         typeof(DomainLogicLayer.AutofacModule),
                         typeof(ApplicationLogicLayer.AutofacModule),
                     }).ConfigurationExpression);
+
             services.AddAutoMapper();
 
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")
-                , builder => builder.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName))); //User Autofac
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
+
+            //services.AddDbContext<AppDbContext>(opt =>
+            //    opt.UseInMemoryDatabase("TodoList"));
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

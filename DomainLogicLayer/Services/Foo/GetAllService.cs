@@ -23,6 +23,7 @@ namespace DomainLogicLayer.Services.Foo
             public Guid Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
+            public string CreatedBy { get; set; }
         }
 
         public class MappingProfile : Profile
@@ -51,6 +52,24 @@ namespace DomainLogicLayer.Services.Foo
                     var context = scope.DbContexts.Get<AppDbContext>();
 
                     var allFoo = context.Set<Bar>().Select(_mapper.Map<Result>).ToList();
+
+                    if (allFoo.Count == 0)
+                    {
+                        context.Set<Bar>().Add(new Bar
+                        {
+                            Id = Guid.NewGuid(),
+                            Name = "Nam",
+                            Description = "Desc"
+                        });
+                        context.Set<Bar>().Add(new Bar
+                        {
+                            Id = Guid.NewGuid(),
+                            Name = "Nam 2",
+                            Description = "Desc 2"
+                        });
+
+                        scope.SaveChanges();
+                    }
 
                     return Task.FromResult(allFoo);
                 }

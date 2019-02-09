@@ -1,20 +1,19 @@
-﻿using Autofac;
-using EntityFramework.DbContextScope.Interfaces;
+﻿using EntityFramework.DbContextScope.Interfaces;
 
 namespace DataAccessLayer
 {
     public class DbContextFactory : IDbContextFactory
     {
-        private readonly ILifetimeScope _scope;
+        private readonly ApplicationDbContextOptions _options;
 
-        public DbContextFactory(ILifetimeScope scope)
+        public DbContextFactory(ApplicationDbContextOptions options)
         {
-            _scope = scope;
+            _options = options;
         }
 
         public TDbContext CreateDbContext<TDbContext>() where TDbContext : class, IDbContext
         {
-            return _scope.Resolve<AppDbContext>() as TDbContext;
+            return new AppDbContext(_options) as TDbContext;
         }
     }
 }

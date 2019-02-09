@@ -7,8 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Foo\" />
-    <Folder Include="wwwroot\" />
+    <Compile Remove="Features\**" />
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="Features\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="Features\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="Features\**" />
+    <None Remove="wwwroot\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,7 +27,7 @@
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.0.100" />
     <PackageReference Include="MediatR" Version="5.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0-preview2-35157" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,20 +5,12 @@ using System.Linq;
 
 namespace Core.Infra
 {
-    public class AuditableDbContext : DbContext, IDbContext
+    public class AuditDbContext : DbContext, IDbContext
     {
         private readonly IUserService _userService;
         private const string UnknownUser = "unknown";
 
-        public AuditableDbContext()
-        {
-        }
-
-        public AuditableDbContext(DbContextOptions options) : base(options)
-        {
-        }
-
-        public AuditableDbContext(DbContextOptions options, IUserService userService) : base(options)
+        public AuditDbContext(DbContextOptions options, IUserService userService) : base(options)
         {
             _userService = userService;
         }
@@ -28,7 +20,7 @@ namespace Core.Infra
             var modifiedEntries = ChangeTracker.Entries()
                 .Where(x => (x.State == EntityState.Added || x.State == EntityState.Modified));
 
-            var identityName = _userService.CurrentUser;
+            var identityName = _userService?.CurrentUser;
 
             foreach (var entry in modifiedEntries)
             {

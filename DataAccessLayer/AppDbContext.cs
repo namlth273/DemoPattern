@@ -6,24 +6,29 @@ using System.Linq;
 
 namespace DataAccessLayer
 {
-    public partial class AppDbContext : AuditableDbContext
+    public class ApplicationDbContextOptions
     {
-        public AppDbContext()
+        public readonly DbContextOptions<AppDbContext> Options;
+        public readonly IUserService UserService;
+
+        public ApplicationDbContextOptions(DbContextOptions<AppDbContext> options, IUserService userService)
         {
-
+            Options = options;
+            UserService = userService;
         }
+    }
 
-        public AppDbContext(DbContextOptions options) : base(options)
+    public partial class AppDbContext : AuditDbContext
+    {
+        public AppDbContext(ApplicationDbContextOptions options) : base(options.Options, options.UserService)
         {
         }
-
-        //public AppDbContext(DbContextOptions options, IUserService userService) : base(options, userService)
-        //{
-        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new BarConfiguration());
+            //modelBuilder.ApplyConfiguration(new BarConfiguration());
+            var assemblyWithConfigurations = GetType().Assembly; //get whatever assembly you want
+            modelBuilder.ApplyConfigurationsFromAssembly(assemblyWithConfigurations);
 
             foreach (var property in modelBuilder.Model.GetEntityTypes()
                 .SelectMany(t => t.GetProperties())
