@@ -12,7 +12,7 @@ using FluentValidation;
 
 namespace ApplicationLogicLayer.Features.Products
 {
-    public class BuyService
+    public class SellService
     {
         public class Command : IRequest<Unit>
         {
@@ -58,16 +58,14 @@ namespace ApplicationLogicLayer.Features.Products
 
                     if (productInventory != null)
                     {
-                        productInventory.Quantity += request.Quantity;
+                        productInventory.Quantity -= request.Quantity;
+                        scope.SaveChanges();
                     }
                     else
                     {
-                        var itemToAdd = _mapper.Map<ProductInventory>(request);
-
-                        context.Set<ProductInventory>().Add(itemToAdd);
+                        // do st
+                        Console.WriteLine("productInventory is null");
                     }
-
-                    scope.SaveChanges();
                 }
 
                 return Task.FromResult(Unit.Value);

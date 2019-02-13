@@ -16,7 +16,7 @@ namespace DemoPattern.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> GetAll()
         {
             var result = await _mediator.Send(new GetAllService.Query());
@@ -35,7 +35,25 @@ namespace DemoPattern.Controllers
         [HttpPost]
         [ValidateModel]
         //[DisableFormValueModelBinding]
-        public async Task<IActionResult> Add(AddService.Command command)
+        public async Task<IActionResult> Add([FromBody]AddService.Command command)
+        {
+            await _mediator.Send(command);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [ValidateModel]
+        public async Task<IActionResult> Buy([FromBody]BuyService.Command command)
+        {
+            await _mediator.Send(command);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [ValidateModel]
+        public async Task<IActionResult> Sell([FromBody]SellService.Command command)
         {
             await _mediator.Send(command);
 
