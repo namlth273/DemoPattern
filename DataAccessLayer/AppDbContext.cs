@@ -20,14 +20,15 @@ namespace DataAccessLayer
 
     public partial class AppDbContext : AuditDbContext
     {
-        public AppDbContext(ApplicationDbContextOptions options) : base(options.Options, options.UserService)
+        public AppDbContext(ApplicationDbContextOptions options) : base(options.Options)
         {
+            UserService = options.UserService;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.ApplyConfiguration(new BarConfiguration());
-            var assemblyWithConfigurations = GetType().Assembly; //get whatever assembly you want
+            var assemblyWithConfigurations = GetType().Assembly;
             modelBuilder.ApplyConfigurationsFromAssembly(assemblyWithConfigurations);
 
             foreach (var property in modelBuilder.Model.GetEntityTypes()
@@ -36,6 +37,11 @@ namespace DataAccessLayer
             {
                 property.AsProperty().Builder.HasMaxLength(256, ConfigurationSource.Convention);
                 property.SqlServer().ColumnType = $"varchar({property.GetMaxLength()})";
+            }
+
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
         }
     }

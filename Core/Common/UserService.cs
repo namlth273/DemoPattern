@@ -17,21 +17,22 @@ namespace Core.Common
 
         private void SetCurrentUser()
         {
-            if (_httpContextAccessor == null)
-            {
-                CurrentUser = SystemUser;
-            }
-            else
-            {
-                if (_httpContextAccessor.HttpContext.User.HasClaim(h => h.Type == ClaimTypes.Email))
-                    CurrentUser = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email).Value;
+            CurrentUser = SystemUser;
+            //if (_httpContextAccessor == null)
+            //{
+            //    CurrentUser = SystemUser;
+            //}
+            //else
+            //{
+            //    if (_httpContextAccessor.HttpContext.User.HasClaim(h => h.Type == ClaimTypes.Email))
+            //        CurrentUser = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email).Value;
 
-                if (string.IsNullOrEmpty(CurrentUser) && _httpContextAccessor.HttpContext.User.HasClaim(h => h.Type == ClaimTypes.NameIdentifier))
-                    CurrentUser = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //    if (string.IsNullOrEmpty(CurrentUser) && _httpContextAccessor.HttpContext.User.HasClaim(h => h.Type == ClaimTypes.NameIdentifier))
+            //        CurrentUser = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-                else
-                    CurrentUser = SystemUser;
-            }
+            //    else
+            //        CurrentUser = SystemUser;
+            //}
         }
     }
 }

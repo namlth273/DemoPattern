@@ -7,12 +7,11 @@ namespace Core.Infra
 {
     public class AuditDbContext : DbContext, IDbContext
     {
-        private readonly IUserService _userService;
+        protected IUserService UserService;
         private const string UnknownUser = "unknown";
 
-        public AuditDbContext(DbContextOptions options, IUserService userService) : base(options)
+        public AuditDbContext(DbContextOptions options) : base(options)
         {
-            _userService = userService;
         }
 
         public override int SaveChanges()
@@ -20,7 +19,7 @@ namespace Core.Infra
             var modifiedEntries = ChangeTracker.Entries()
                 .Where(x => (x.State == EntityState.Added || x.State == EntityState.Modified));
 
-            var identityName = _userService?.CurrentUser;
+            var identityName = UserService?.CurrentUser;
 
             foreach (var entry in modifiedEntries)
             {
