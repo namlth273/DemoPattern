@@ -48,5 +48,25 @@ namespace DataAccessLayer
                 //builder.HasOne<Models.Product>().WithMany(m => m.OrderItems).HasForeignKey(k => k.ProductId);
             }
         }
+
+        public class ProductColorConfiguration : BaseConfiguration<Models.ProductColor>
+        {
+            public override void Configure(EntityTypeBuilder<Models.ProductColor> builder)
+            {
+                base.Configure(builder);
+
+                builder.Property(p => p.ColorType).IsRequired();
+            }
+        }
+
+        public class ProductSizeConfiguration : BaseConfiguration<Models.ProductSize>
+        {
+            public override void Configure(EntityTypeBuilder<Models.ProductSize> builder)
+            {
+                base.Configure(builder);
+
+                builder.Property(p => p.SizeType).IsRequired();
+            }
+        }
     }
 }
