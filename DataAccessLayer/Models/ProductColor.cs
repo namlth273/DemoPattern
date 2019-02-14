@@ -1,5 +1,6 @@
 ﻿using Core.Common;
 using Infrastructure;
+using System.Collections.Generic;
 
 namespace DataAccessLayer.Models
 {
@@ -7,6 +8,6 @@ namespace DataAccessLayer.Models
     {
         public EnumProductColor ColorType { get; set; }
         public string Description { get; set; }
-        public virtual ProductInventory ProductInventory { get; set; }
+        public virtual ICollection<ProductInventory> ProductInventories { get; set; }
     }
 }

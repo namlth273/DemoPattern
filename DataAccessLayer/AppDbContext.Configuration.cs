@@ -33,7 +33,6 @@ namespace DataAccessLayer
                 base.Configure(builder);
 
                 builder.Property(p => p.Quantity).IsRequired();
-                //builder.HasOne<Models.Product>().WithMany(m => m.ProductInventories).HasForeignKey(k => k.ProductId);
             }
         }
 

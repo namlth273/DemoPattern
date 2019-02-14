@@ -3,14 +3,14 @@ using Core.Extensions;
 using DataAccessLayer;
 using DataAccessLayer.Models;
 using EntityFramework.DbContextScope.Interfaces;
+using FluentValidation;
 using MediatR;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FluentValidation;
 
-namespace ApplicationLogicLayer.Features.Products
+namespace ApplicationLogicLayer.Features.ProductInventories
 {
     public class BuyService
     {
@@ -18,6 +18,10 @@ namespace ApplicationLogicLayer.Features.Products
         {
             public Guid ProductId { get; set; }
             public int Quantity { get; set; }
+            public double BuyPrice { get; set; }
+            public double SellPrice { get; set; }
+            public Guid ProductColorId { get; set; }
+            public Guid ProductSizeId { get; set; }
         }
 
         public class MappingProfile : Profile
@@ -33,7 +37,11 @@ namespace ApplicationLogicLayer.Features.Products
             public CommandValidator()
             {
                 RuleFor(r => r.ProductId).NotEqual(Guid.Empty).WithGlobalMessage("Product is required");
+                RuleFor(r => r.ProductColorId).NotEqual(Guid.Empty).WithGlobalMessage("Color is required");
+                RuleFor(r => r.ProductSizeId).NotEqual(Guid.Empty).WithGlobalMessage("Size is required");
                 RuleFor(r => r.Quantity).GreaterThan(0).WithGlobalMessage("Quantity must be greater than 0");
+                RuleFor(r => r.BuyPrice).GreaterThan(0).WithGlobalMessage("Buy Price must be greater than 0");
+                RuleFor(r => r.SellPrice).GreaterThan(0).WithGlobalMessage("Sell Price must be greater than 0");
             }
         }
 
@@ -54,7 +62,9 @@ namespace ApplicationLogicLayer.Features.Products
                     var context = scope.DbContexts.Get<AppDbContext>();
 
                     var productInventory = context.Set<ProductInventory>()
-                        .FirstOrDefault(w => w.ProductId == request.ProductId);
+                        .FirstOrDefault(w => w.ProductId == request.ProductId
+                                             && w.ProductColorId == request.ProductColorId
+                                             && w.ProductSizeId == request.ProductSizeId);
 
                     if (productInventory != null)
                     {

@@ -41,23 +41,5 @@ namespace DemoPattern.Controllers
 
             return Ok();
         }
-
-        [HttpPost]
-        [ValidateModel]
-        public async Task<IActionResult> Buy([FromBody]BuyService.Command command)
-        {
-            await _mediator.Send(command);
-
-            return Ok();
-        }
-
-        [HttpPost]
-        [ValidateModel]
-        public async Task<IActionResult> Sell([FromBody]SellService.Command command)
-        {
-            await _mediator.Send(command);
-
-            return Ok();
-        }
     }
 }
