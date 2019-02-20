@@ -49,7 +49,9 @@ namespace ApplicationLogicLayer.Features.Products
                 {
                     var context = scope.DbContexts.Get<AppDbContext>();
 
-                    var products = context.Set<Product>().Select(_mapper.Map<Result>).ToList();
+                    var products = context.Set<Product>().Select(_mapper.Map<Result>)
+                        .OrderBy(o => o.Name)
+                        .ToList();
 
                     return Task.FromResult(products);
                 }
