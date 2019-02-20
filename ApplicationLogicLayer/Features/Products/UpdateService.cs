@@ -49,7 +49,7 @@ namespace ApplicationLogicLayer.Features.Products
 
                     if (product != null)
                     {
-                        _mapper.Map<Product>(request);
+                        _mapper.Map(request, product);
                     }
                     else
                     {

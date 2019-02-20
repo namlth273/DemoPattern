@@ -35,7 +35,7 @@ namespace DemoPattern.Controllers
         [HttpPost]
         [ValidateModel]
         //[DisableFormValueModelBinding]
-        public async Task<IActionResult> Add([FromBody]AddService.Command command)
+        public async Task<IActionResult> Save([FromBody]SaveService.Command command)
         {
             await _mediator.Send(command);
 
