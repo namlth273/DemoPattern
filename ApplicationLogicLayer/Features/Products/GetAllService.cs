@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Core.Common;
 using DataAccessLayer;
 using DataAccessLayer.Models;
@@ -49,7 +50,7 @@ namespace ApplicationLogicLayer.Features.Products
                 {
                     var context = scope.DbContexts.Get<AppDbContext>();
 
-                    var products = context.Set<Product>().Select(_mapper.Map<Result>)
+                    var products = context.Set<Product>().ProjectTo<Result>(_mapper.ConfigurationProvider)
                         .OrderBy(o => o.Name)
                         .ToList();
 
@@ -59,4 +60,3 @@ namespace ApplicationLogicLayer.Features.Products
         }
     }
 }
-

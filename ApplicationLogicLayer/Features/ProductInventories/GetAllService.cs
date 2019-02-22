@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Core.Common;
 using Core.Extensions;
 using DataAccessLayer;
@@ -101,7 +102,7 @@ namespace ApplicationLogicLayer.Features.ProductInventories
                             ProductSize = size
                         }).Where(w => w.ProductInventory.Quantity > 0)
                         .OrderBy(o => o.Product.Name)
-                        .AsEnumerable().Select(_mapper.Map<Result>).ToList();
+                        .ProjectTo<Result>(_mapper.ConfigurationProvider).ToList();
 
                     return Task.FromResult(products);
                 }
@@ -109,4 +110,3 @@ namespace ApplicationLogicLayer.Features.ProductInventories
         }
     }
 }
-

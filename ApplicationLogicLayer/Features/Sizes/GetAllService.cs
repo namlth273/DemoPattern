@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Core.Common;
 using DataAccessLayer;
 using DataAccessLayer.Models;
@@ -50,7 +51,7 @@ namespace ApplicationLogicLayer.Features.Sizes
                 {
                     var context = scope.DbContexts.Get<AppDbContext>();
 
-                    var result = context.Set<ProductSize>().Select(_mapper.Map<Result>).ToList();
+                    var result = context.Set<ProductSize>().ProjectTo<Result>(_mapper.ConfigurationProvider).ToList();
 
                     return Task.FromResult(result);
                 }
@@ -58,4 +59,3 @@ namespace ApplicationLogicLayer.Features.Sizes
         }
     }
 }
-
