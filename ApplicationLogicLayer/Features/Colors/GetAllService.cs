@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Core.Common;
 using DataAccessLayer;
 using DataAccessLayer.Models;
@@ -56,7 +57,7 @@ namespace ApplicationLogicLayer.Features.Colors
                 {
                     var context = scope.DbContexts.Get<AppDbContext>();
 
-                    var result = context.Set<ProductColor>().Select(_mapper.Map<Result>).ToList();
+                    var result = context.Set<ProductColor>().ProjectTo<Result>(_mapper.ConfigurationProvider).ToList();
 
                     return Task.FromResult(result);
                 }
@@ -64,4 +65,3 @@ namespace ApplicationLogicLayer.Features.Colors
         }
     }
 }
-
