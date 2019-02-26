@@ -33,6 +33,8 @@ namespace ApplicationLogicLayer.Features.ProductInventories
             public int? Quantity { get; set; }
             public double BuyPrice { get; set; }
             public double SellPrice { get; set; }
+            public bool IsDeleted { get; set; }
+            public DateTime? CreatedDate { get; set; }
         }
 
         public class NestedModel
@@ -65,6 +67,8 @@ namespace ApplicationLogicLayer.Features.ProductInventories
                     .ForMember(m => m.Size, o => o.MapFrom(
                         EnumHelper.CreateEnumToStringExpression(
                             (NestedModel.ProductModel e) => e.ProductSize.SizeType)))
+                    .ForMember(m => m.IsDeleted, o => o.MapFrom(f => f.ProductInventory.IsDeleted))
+                    .ForMember(m => m.CreatedDate, o => o.MapFrom(f => f.ProductInventory.CreatedDate))
                     ;
             }
         }
@@ -88,7 +92,7 @@ namespace ApplicationLogicLayer.Features.ProductInventories
 
                     var products = (
                         from prod in context.Set<Product>().GetActiveOnly()
-                        join inv in context.Set<ProductInventory>().GetActiveOnly() on prod.Id equals inv.ProductId into inv1
+                        join inv in context.Set<ProductInventory>() on prod.Id equals inv.ProductId into inv1
                         from inv in inv1.DefaultIfEmpty()
                         join color in context.Set<ProductColor>() on inv.ProductColorId equals color.Id into color1
                         from color in color1.DefaultIfEmpty()
