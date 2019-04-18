@@ -1,2 +1,3 @@
 # DemoPattern
-Demo Patterns
+Follow Clean Architecture, DDD, SOLID...
+Docker
