@@ -5,6 +5,7 @@
     <AspNetCoreHostingModel>inprocess</AspNetCoreHostingModel>
     <AssemblyName>DemoPattern</AssemblyName>
     <UserSecretsId>1554690c-30d1-48da-a356-8b43bfb0292f</UserSecretsId>
+    <Configurations>Debug;Release;Docker</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,6 +36,15 @@
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
     <ProjectReference Include="..\DomainLogicLayer\DomainLogicLayer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.Docker.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.Production.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

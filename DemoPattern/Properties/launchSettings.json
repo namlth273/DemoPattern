@@ -1,29 +1,31 @@
-﻿{
-  "$schema": "http://json.schemastore.org/launchsettings.json",
+{
   "iisSettings": {
-    "windowsAuthentication": false, 
-    "anonymousAuthentication": true, 
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:11872",
       "sslPort": 0
     }
   },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
       "launchUrl": "api/values",
       "environmentVariables": {
+        "DB_CONNECTION_STRING": "Server=localhost,1434;Database=DemoPattern;Persist Security Info=False;User ID=sa;Password=P@ssw0rd@123;",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "DemoPattern": {
+    "Docker": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",
       "applicationUrl": "http://localhost:11872",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "DB_CONNECTION_STRING": "Server=db;Database=DemoPattern;Persist Security Info=False;User ID=sa;Password=P@ssw0rd@123;",
+        "ASPNETCORE_ENVIRONMENT": "Docker"
       }
     }
   }

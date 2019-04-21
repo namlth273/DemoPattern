@@ -39,8 +39,15 @@ namespace DemoPattern
 
             services.AddAutoMapper();
 
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+            }
+
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(connectionString));
 
             //services.AddDbContext<AppDbContext>(opt =>
             //    opt.UseInMemoryDatabase("TodoList"));
